@@ -1,0 +1,211 @@
+<Home>:
+	FloatLayout:
+		BoxLayout:
+			orientation:'vertical'
+			pos_hint:{"center_x":.5,"center_y":.87}
+			size_hint:.5,None
+
+			Button:
+				text:'Select File'
+				size_hint:1,None
+				height:35
+				on_release:root.select_file()
+
+			Button:
+				id:settings_btn
+				text:'Settings'
+				size_hint:1,None
+				height:35
+				on_release:root.manager.current='settings'
+
+
+		GridLayout:
+			canvas.before:
+				Color:
+					rgba:1,0,0,0
+				Rectangle:
+					size:self.size
+					pos:self.pos
+			orientation:'vertical'
+			cols:1
+			pos_hint:{"center_x":.5, "center_y":.37}
+			size_hint:.98,None
+			height:300
+
+			BoxLayout:
+				canvas.before:
+					Color:
+						rgba:.5,.6,.8,.6
+					Rectangle:
+						size:self.size
+						pos:self.pos
+				size_hint:1,None
+				height:30
+				Label:
+					font_size:20
+					size_hint:1,1
+					text:'Now Playing'
+
+
+			BoxLayout:
+				canvas.before:
+					Color:
+						rgba:.02,.59,.38,0
+					Rectangle:
+						size:self.size
+						pos:self.pos
+				size_hint:1,None
+				height:270
+
+				ScrollView:
+					Label:
+						text:''
+						id:content_lbl
+						font_size:16
+						size_hint:1,None
+						text_size:self.width,None
+						height:self.texture_size[1]
+
+
+
+		GridLayout:
+			canvas.before:
+				Color:
+					rgba:1,0,0,0
+				Rectangle:
+					size:self.size
+					pos:self.pos
+			orientation:'vertical'
+			size_hint:1,None
+			height:70
+			cols:1
+			pos_hint:{"left":1,"bottom":0.1}
+			BoxLayout:
+				orientation:'horizontal'
+				size_hint:1,None
+				height:35
+				canvas.before:
+					Color:
+						rgba:.5,.6,.8,.5
+					Rectangle:
+						size:self.size
+						pos:self.pos
+				ScrollView:
+					do_scroll_x:True
+					Label:
+						canvas.before:
+							Color:
+								rgba:.02,.6,.38,.5
+							Rectangle:
+								size:self.size
+								pos:self.pos
+						id:selected_file_lbl
+						text:'No file is Selected'
+						size_hint:None,1
+						width:self.texture_size[0]
+
+
+			BoxLayout:
+				orientation:'horizontal'
+				size_hint:1,None
+				height:35
+				Button:
+					id:play_btn
+					disabled:False
+					text:'Play'
+					size_hint:.34,1
+					on_release:root.Play()
+
+				Button:
+					id:pause_btn
+					text:'Pause'
+					disabled:True
+					size_hint:.33,1
+					on_release:root.Pause()
+
+
+				Button:
+					id:stop_btn
+					text:'Stop'
+					disabled:True
+					size_hint:.33,1
+					on_release:root.Stop()
+
+
+
+
+
+<Settings>:
+	id:settings
+	FloatLayout:
+		GridLayout:
+			orientation:'vertical'
+			cols:1
+			BoxLayout:
+				orientation:'horizontal'
+				size_hint:1,None
+				height:32
+
+				Button:
+					text:'< Back'
+					size_hint:.2,1
+					on_release:root.manager.current='home'
+
+				Button:
+					text:'Settings'
+					size_hint:.8,1
+
+
+
+			BoxLayout:
+				orientation:'horizontal'
+				size_hint:1,None
+				height:50
+
+				Label:
+					color:1,0,0,1
+					text:'Voice'
+					font_size:20
+					size_hint:.4,1
+
+				Button:
+					id:female_voice
+					text:'Female'
+					size_hint:.3,1
+					background_color:.09,.6,.08,1
+					on_release:root.set_voice(self.text)
+
+				Button:
+					id:male_voice
+					text:'Male'
+					size_hint:.3,1
+					background_color:.6,.08,.08,1
+					on_release:root.set_voice(self.text)
+
+			BoxLayout:
+				orientation:'horizontal'
+				size_hint:1,None
+				height:50
+
+				Label:
+					color:1,0,0,1
+					text:'Reading Speed'
+					size_hint:.34,1
+					font_size:20
+
+				Label:
+					color:.09,.6,.08,1
+					text:str(int(rate.value))
+					size_hint:.05,1
+					font_size:20
+
+				Slider:
+					id:rate
+					max:260
+					min:50
+					step:5
+					value:120
+					value_track:True
+					value_track_color:0,1,0,1
+					size_hint:.61,1
+					on_value:root.set_rate(self.value)
